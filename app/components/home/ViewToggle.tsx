@@ -8,13 +8,13 @@ export function ViewToggle({
   className?: string
 }) {
   return (
-    <div className={`inline-flex rounded-2xl border border-slate-300 bg-white/80 p-1 shadow-sm transition-all duration-300 hover:shadow-md ${className}`}>
+    <div className={`inline-flex rounded-2xl border border-blue-500/30 bg-slate-900/50 p-1 shadow-sm transition-all duration-300 hover:shadow-md hover:shadow-blue-500/20 ${className}`}>
       <Link
         href="/"
         className={`rounded-xl px-4 py-2 text-sm font-semibold transition duration-200 ${
           active === 'issuer'
-            ? 'bg-pink-200/80 text-slate-900'
-            : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+            ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white'
+            : 'text-slate-300 hover:text-white hover:bg-blue-500/10'
         }`}
       >
         Issuer Dashboard
@@ -23,8 +23,8 @@ export function ViewToggle({
         href="/verify"
         className={`rounded-xl px-4 py-2 text-sm font-semibold transition duration-200 ${
           active === 'verifier'
-            ? 'bg-pink-200/80 text-slate-900'
-            : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+            ? 'bg-gradient-to-r from-cyan-600 to-cyan-500 text-white'
+            : 'text-slate-300 hover:text-white hover:bg-cyan-500/10'
         }`}
       >
         Verifier Portal

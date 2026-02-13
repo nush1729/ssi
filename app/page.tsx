@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   useAccount,
   useReadContract,
@@ -11,6 +11,7 @@ import { waitForTransactionReceipt } from 'wagmi/actions'
 import { keccak256, stringToBytes } from 'viem'
 import { contractConfig } from './contract'
 import { uploadToIPFS } from './ipfs'
+import { RoleSelector } from './components/RoleSelector'
 import { DashboardHeader } from './components/home/DashboardHeader'
 import { StatsGrid } from './components/home/StatsGrid'
 import { ConnectWalletPrompt } from './components/home/ConnectWalletPrompt'
@@ -20,6 +21,7 @@ import { ViewToggle } from './components/home/ViewToggle'
 import type { Credential } from './components/home/types'
 
 export default function Home() {
+  const [showRoleSelector, setShowRoleSelector] = useState(true)
   const { address } = useAccount()
   const config = useConfig()
 
@@ -113,70 +115,70 @@ export default function Home() {
   // ---------------- UI ----------------
 
   return (
-    <div className="min-h-screen bg-lime-100/70 text-slate-900">
-      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <main className="space-y-6">
-          <div className="flex justify-start animate-fade-in-up">
-            <ViewToggle active="issuer" />
-          </div>
-
-          <div className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-            <DashboardHeader />
-          </div>
-
-          <section className="paper-grid relative overflow-hidden rounded-3xl border border-slate-300/70 bg-white p-6 shadow-sm sm:p-8 animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
-            <div className="max-w-2xl">
-              <p className="inline-block rounded-full border border-slate-300 bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-700">
-                NeuralHash Issuer Space
-              </p>
-              <h2 className="mt-4 text-4xl font-black leading-tight text-slate-900 sm:text-5xl">
-                the credential hub
-                <span className="block bg-pink-200/70 px-2 text-slate-900">for modern SSI workflows</span>
-              </h2>
-              <p className="mt-4 text-sm text-slate-600 sm:text-base">
-                Keep issuing, revoking, and sharing verifiable credentials with a clean dashboard flow.
-              </p>
+    <>
+      <RoleSelector isOpen={showRoleSelector} onSelect={() => setShowRoleSelector(false)} />
+      
+      <div className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800 text-white">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+          <main className="space-y-6">
+            <div className="flex justify-start animate-fade-in-up">
+              <ViewToggle active="issuer" />
             </div>
 
-            {/* <div className="image-placeholder mt-6 rounded-2xl bg-white/80 p-6 text-center text-sm font-semibold text-slate-500">
-              IMAGE PLACEHOLDER (hero visual over lined background)
-            </div> */}
-          </section>
+            <div className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+              <DashboardHeader />
+            </div>
 
-          <div className="stagger-children">
-            <StatsGrid
-              walletConnected={Boolean(address)}
-              totalCredentials={credentials.length}
-              activeCredentials={activeCredentials}
-              revokedCredentials={revokedCredentials}
-            />
-          </div>
+            <section className="paper-grid relative overflow-hidden rounded-3xl border border-blue-500/30 bg-gradient-to-br from-slate-800 to-slate-900 p-6 shadow-lg sm:p-8 animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
+              <div className="max-w-2xl">
+                <p className="inline-block rounded-full border border-cyan-500/50 bg-cyan-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-cyan-300">
+                  NeuralHash Issuer Space
+                </p>
+                <h2 className="mt-4 text-4xl font-black leading-tight text-white sm:text-5xl">
+                  the credential hub
+                  <span className="block bg-gradient-to-r from-blue-500/20 to-cyan-500/20 px-2 text-white">for modern SSI workflows</span>
+                </h2>
+                <p className="mt-4 text-sm text-slate-300 sm:text-base">
+                  Keep issuing, revoking, and sharing verifiable credentials with a clean dashboard flow.
+                </p>
+              </div>
+            </section>
 
-          {!address ? (
-            <ConnectWalletPrompt />
-          ) : (
-            <>
-              <IssueCredentialSection
-                name={name}
-                type={type}
-                year={year}
-                loading={loading}
-                onNameChange={setName}
-                onTypeChange={setType}
-                onYearChange={setYear}
-                onIssue={handleIssue}
+            <div className="stagger-children">
+              <StatsGrid
+                walletConnected={Boolean(address)}
+                totalCredentials={credentials.length}
+                activeCredentials={activeCredentials}
+                revokedCredentials={revokedCredentials}
               />
+            </div>
 
-              <CredentialsSection
-                credentials={credentials}
-                address={address}
-                loading={loading}
-                onRevoke={handleRevoke}
-              />
-            </>
-          )}
-        </main>
+            {!address ? (
+              <ConnectWalletPrompt />
+            ) : (
+              <>
+                <IssueCredentialSection
+                  name={name}
+                  type={type}
+                  year={year}
+                  loading={loading}
+                  onNameChange={setName}
+                  onTypeChange={setType}
+                  onYearChange={setYear}
+                  onIssue={handleIssue}
+                />
+
+                <CredentialsSection
+                  credentials={credentials}
+                  address={address}
+                  loading={loading}
+                  onRevoke={handleRevoke}
+                />
+              </>
+            )}
+          </main>
+        </div>
       </div>
-    </div>
+    </>
   )
 }
