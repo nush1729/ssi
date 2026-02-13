@@ -11,7 +11,7 @@ const config = getDefaultConfig({
   appName: 'NeuralHash',
   projectId: 'demo',
   chains: [sepolia],
-  ssr: true,
+  ssr: false,
 })
 
 const queryClient = new QueryClient()
