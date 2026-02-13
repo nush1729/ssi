@@ -116,13 +116,15 @@ export default function Home() {
     <div className="min-h-screen bg-lime-100/70 text-slate-900">
       <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
         <main className="space-y-6">
-          <div className="flex justify-start">
+          <div className="flex justify-start animate-fade-in-up">
             <ViewToggle active="issuer" />
           </div>
 
-          <DashboardHeader />
+          <div className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+            <DashboardHeader />
+          </div>
 
-          <section className="paper-grid relative overflow-hidden rounded-3xl border border-slate-300/70 bg-white p-6 shadow-sm sm:p-8">
+          <section className="paper-grid relative overflow-hidden rounded-3xl border border-slate-300/70 bg-white p-6 shadow-sm sm:p-8 animate-fade-in-scale" style={{ animationDelay: '0.2s' }}>
             <div className="max-w-2xl">
               <p className="inline-block rounded-full border border-slate-300 bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-slate-700">
                 NeuralHash Issuer Space
@@ -141,12 +143,14 @@ export default function Home() {
             </div> */}
           </section>
 
-          <StatsGrid
-            walletConnected={Boolean(address)}
-            totalCredentials={credentials.length}
-            activeCredentials={activeCredentials}
-            revokedCredentials={revokedCredentials}
-          />
+          <div className="stagger-children">
+            <StatsGrid
+              walletConnected={Boolean(address)}
+              totalCredentials={credentials.length}
+              activeCredentials={activeCredentials}
+              revokedCredentials={revokedCredentials}
+            />
+          </div>
 
           {!address ? (
             <ConnectWalletPrompt />

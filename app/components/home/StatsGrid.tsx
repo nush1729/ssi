@@ -8,7 +8,7 @@ function StatCard({
   accent: string
 }) {
   return (
-    <div className={`rounded-3xl border border-slate-300/80 p-4 shadow-sm ${accent}`}>
+    <div className={`rounded-3xl border border-slate-300/80 p-4 shadow-sm transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-default ${accent}`}>
       <p className="text-xs font-semibold uppercase tracking-wide text-slate-600">{label}</p>
       <p className="mt-2 text-2xl font-black text-slate-900">{value}</p>
     </div>
